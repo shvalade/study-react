@@ -1,6 +1,8 @@
 import React from 'react';
-import { moviesData } from "../moviesData"
+// import { moviesData } from "../moviesData"
 import MovieItem from "./MovieItem"
+import { API_URL, API_KEY_3 } from "../utils/api"
+import MovieTabs from "./MovieTabs"
 // console.log(moviesData);
 
 //UI = f(state, props)
@@ -10,19 +12,50 @@ class App extends React.Component {
     super()
 
     this.state = {
-      movies: moviesData,
-      moviesWillWatch: []
+      movies: [],
+      moviesWillWatch: [],
+      sort_by: "popularity.desc"
       // titles: moviesData.map(a => a.title)
+
     };
+    console.log("constuctor");
   }
 
+  componentDidMount() {
+    console.log("didMount");
+
+    this.getMovies();
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    console.log("didUpdate")
+    console.log("prev: ", prevProps, prevState);
+    console.log("this: ", this.props, this.state);
+
+    if (prevState.sort_by !== this.state.sort_by) {
+      console.log("Call API");
+
+      this.getMovies();
+    }
+  }
+
+  getMovies() {
+    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}&language=ru-RU`).then((response) => {
+      console.log("response: ");
+      return response.json()
+    }).then((data) => {
+      console.log("data: ", data);
+      this.setState({
+        movies: data.results
+      })
+    });
+  }
 
   removeMovie = movie => {
-    const updateMovies = this.state.movies.filter(function(item) {
-      return item.id !== movie.id;
-    })
+    const updateMovies = this.state.movies.filter(item => item.id !== movie.id);
     console.log(updateMovies);
     // this.state.movies = updateMovies
+
     this.setState({
       movies: updateMovies
     })
@@ -56,17 +89,32 @@ class App extends React.Component {
     })
   }
 
+  updateSortBy = value => {
 
+    this.setState({
+      sort_by: value
+    })
+    // this.componentDidMount();
+  }
 
 
 
   render() {
-  console.log("render", this.state, this);
+  console.log("render", this.state.sort_by);
     return (
       <div className="container">
-        <div className="row">
+        <div className="row mt-4">
           <div className="col-9">
+            <div className="row mb-4">
+              <div className="col-12">
+                <MovieTabs
+                  sort_by={this.state.sort_by}
+                  updateSortBy={this.updateSortBy}
+                />
+              </div>
+            </div>
             <div className="row">
+
             { this.state.movies.map(movie => {
               return (
                 <div className="col-6 mb-4" key={movie.id}>

@@ -25,7 +25,7 @@ class MovieItem extends React.Component {
            {this.state.willWatch ? (
              <button
                 type="button"
-                className="btn-secondary"
+                className="btn btn-success"
                 onClick={() => {
                   this.setState({
                     willWatch: false
@@ -38,7 +38,7 @@ class MovieItem extends React.Component {
            ) : (
              <button
                type="button"
-               className="btn btn-success"
+               className="btn btn-secondary"
                onClick={() => {
                 this.setState({
                   willWatch: true
@@ -50,7 +50,7 @@ class MovieItem extends React.Component {
              </button>
            )}
         </div>
-          <button onClick = {removeMovie.bind(null, movie)}>
+          <button type="button" onClick = {removeMovie.bind(null, movie)}>
             Delete movie
           </button>
       </div>
