@@ -3,6 +3,7 @@ import React from 'react';
 import MovieItem from "./MovieItem"
 import { API_URL, API_KEY_3 } from "../utils/api"
 import MovieTabs from "./MovieTabs"
+import MoviePages from "./MoviePages"
 // console.log(moviesData);
 
 //UI = f(state, props)
@@ -14,25 +15,29 @@ class App extends React.Component {
     this.state = {
       movies: [],
       moviesWillWatch: [],
-      sort_by: "popularity.desc"
+      sort_by: "popularity.desc",
+      page: 2
       // titles: moviesData.map(a => a.title)
 
     };
-    console.log("constuctor");
+    console.log("APP constuctor");
   }
 
   componentDidMount() {
-    console.log("didMount");
+    console.log("App didMount");
 
     this.getMovies();
   }
 
   componentDidUpdate (prevProps, prevState) {
-    console.log("didUpdate")
-    console.log("prev: ", prevProps, prevState);
-    console.log("this: ", this.props, this.state);
+    console.log("App didUpdate")
+    // console.log("prev: ", prevProps, prevState);
+    // console.log("this: ", this.props, this.state);
 
-    if (prevState.sort_by !== this.state.sort_by) {
+    if (
+      prevState.sort_by !== this.state.sort_by ||
+      prevState.page !== this.state.page
+    ) {
       console.log("Call API");
 
       this.getMovies();
@@ -40,11 +45,11 @@ class App extends React.Component {
   }
 
   getMovies() {
-    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}&language=ru-RU`).then((response) => {
-      console.log("response: ");
+    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}&page=${this.state.page}`).then((response) => {
+    //  console.log("response: ");
       return response.json()
     }).then((data) => {
-      console.log("data: ", data);
+    //  console.log("data: ", data);
       this.setState({
         movies: data.results
       })
@@ -62,7 +67,7 @@ class App extends React.Component {
   }
 
   addMovieToWillWatch = movie => {
-    console.log(movie)
+    // console.log(movie)
 
     // const updateMoviesToWillWatch = [...this.state.moviesWillWatch];
     // updateMoviesToWillWatch.push(movie);
@@ -97,10 +102,16 @@ class App extends React.Component {
     // this.componentDidMount();
   }
 
+  updateCurrPage = value => {
+    this.setState({
+      page: value
+    })
+  }
+
 
 
   render() {
-  console.log("render", this.state.sort_by);
+  console.log("App render", this.state.sort_by);
     return (
       <div className="container">
         <div className="row mt-4">
@@ -110,6 +121,14 @@ class App extends React.Component {
                 <MovieTabs
                   sort_by={this.state.sort_by}
                   updateSortBy={this.updateSortBy}
+                />
+              </div>
+            </div>
+            <div className="row mb-4">
+              <div className="col-12">
+                <MoviePages
+                  currentPage={this.state.page}
+                  updateCurrPage={this.updateCurrPage}
                 />
               </div>
             </div>
@@ -128,6 +147,14 @@ class App extends React.Component {
                 </div>
               );
             })}
+            </div>
+            <div className="row mb-4">
+              <div className="col-12">
+                <MovieTabs
+                  sort_by={this.state.sort_by}
+                  updateSortBy={this.updateSortBy}
+                />
+              </div>
             </div>
           </div>
           <div className="col-3">

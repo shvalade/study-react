@@ -8,6 +8,11 @@ class MovieItem extends React.Component {
       willWatch: false
     };
   }
+
+  componentWillUnmount() {
+    //console.log("unount", this.props.movie.title);
+  }
+
   render(){
     const { movie, removeMovie, addMovieToWillWatch, removeMovieFromWillWatch } = this.props;
     return (
