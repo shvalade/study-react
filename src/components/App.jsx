@@ -4,9 +4,11 @@ import MovieItem from "./MovieItem"
 import { API_URL, API_KEY_3 } from "../utils/api"
 import MovieTabs from "./MovieTabs"
 import MoviePages from "./MoviePages"
+import MovieWillWatchItem from "./MovieWillWatchItem"
 // console.log(moviesData);
 
 //UI = f(state, props)
+
 
 class App extends React.Component {
   constructor() {
@@ -111,7 +113,10 @@ class App extends React.Component {
 
 
   render() {
-  console.log("App render", this.state.sort_by);
+  //console.log("App render", this.state.sort_by);
+  // console.log(this.state.moviesWillWatch.map(value => {
+  //   return value.id;
+  // }));
     return (
       <div className="container">
         <div className="row mt-4">
@@ -121,6 +126,7 @@ class App extends React.Component {
                 <MovieTabs
                   sort_by={this.state.sort_by}
                   updateSortBy={this.updateSortBy}
+                  updateCurrPage={this.updateCurrPage}
                 />
               </div>
             </div>
@@ -137,28 +143,40 @@ class App extends React.Component {
             { this.state.movies.map(movie => {
               return (
                 <div className="col-6 mb-4" key={movie.id}>
-                <MovieItem
-                  key={movie.id}
-                  movie={movie}
-                  removeMovie={this.removeMovie}
-                  addMovieToWillWatch={this.addMovieToWillWatch}
-                  removeMovieFromWillWatch={this.removeMovieFromWillWatch}
-                />
+                    <MovieItem
+                      key={movie.id}
+                      willWatch={this.state.moviesWillWatch.find(
+                        x => x.id === movie.id
+                      )}
+                      movie={movie}
+                      removeMovie={this.removeMovie}
+                      addMovieToWillWatch={this.addMovieToWillWatch}
+                      removeMovieFromWillWatch={this.removeMovieFromWillWatch}
+                    />
                 </div>
               );
             })}
             </div>
-            <div className="row mb-4">
-              <div className="col-12">
-                <MovieTabs
-                  sort_by={this.state.sort_by}
-                  updateSortBy={this.updateSortBy}
-                />
-              </div>
-            </div>
+
           </div>
           <div className="col-3">
             <p>Will watch: {this.state.moviesWillWatch.length}</p>
+            <ul className="list-group">
+            {
+              this.state.moviesWillWatch.map(movie => {
+                return (
+                  <li className="list-group-item">
+                    <MovieWillWatchItem
+                      key= {movie.id}
+                      movieTitle= {movie.title}
+                      movieRating= {movie.vote_average}
+                    />
+                  </li>
+
+                );
+              })
+            }
+          </ul>
           </div>
         </div>
       </div>
@@ -167,6 +185,9 @@ class App extends React.Component {
   }
 }
 
+//moviesWillWatchIDs={this.state.moviesWillWatch.map(value => {
+//  return value.id;
+//})}
 // function App() {
 //   return <div className="title" id="323" >{moviesData[0].title}</div>
 // }

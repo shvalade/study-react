@@ -1,16 +1,12 @@
 import React from "react"
 
 class MovieItem extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
-
+    //const { id, moviesWillWatchIDs } = this.props;
     this.state = {
-      willWatch: false
+      willWatch: props.willWatch //moviesWillWatchIDs.includes(id) ? true : false
     };
-  }
-
-  componentWillUnmount() {
-    //console.log("unount", this.props.movie.title);
   }
 
   render(){
@@ -55,7 +51,13 @@ class MovieItem extends React.Component {
              </button>
            )}
         </div>
-          <button type="button" onClick = {removeMovie.bind(null, movie)}>
+          <button type="button"
+            onClick = { () => {
+              removeMovieFromWillWatch(movie);
+              removeMovie(movie);
+
+            }}
+          >
             Delete movie
           </button>
       </div>

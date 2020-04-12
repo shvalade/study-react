@@ -6,12 +6,12 @@ class MovieTabs extends React.Component{
     super();
   }
 
-  componentWillReceiveProps(nextProps, nextState) {
-    console.log("WillReceiveProps");
-    console.log("nextProps sort_by: ", nextProps.sort_by);
-    console.log("nextState sort_by: ", this.props.sort_by);
-
-  }
+  // componentWillReceiveProps(nextProps, nextState) {
+  //   console.log("WillReceiveProps");
+  //   console.log("nextProps sort_by: ", nextProps.sort_by);
+  //   console.log("nextState sort_by: ", this.props.sort_by);
+  //
+  // }
 
   // shouldComponentUpdate(nextProps, nextState) {
   //   if(nextProps.sort_by !== this.props.sort_by){
@@ -22,13 +22,15 @@ class MovieTabs extends React.Component{
   // }
 
   render() {
-    const { sort_by, updateSortBy } = this.props
+    const { sort_by, updateSortBy, updateCurrPage } = this.props
 
-    const handleClick = value => () => { updateSortBy(value) };
+    const handleClick = value => () => value !== sort_by ? updateSortBy(value) : () => {return};
 
     const getClassLink = value => {
+      console.log("change!");
       return `nav-link ${ sort_by === value ? "active" : "" }`
     };
+
 
     console.log("MovieTabs render!");
 
