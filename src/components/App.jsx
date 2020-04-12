@@ -16,7 +16,7 @@ class App extends React.Component {
       movies: [],
       moviesWillWatch: [],
       sort_by: "popularity.desc",
-      page: 2
+      page: 1
       // titles: moviesData.map(a => a.title)
 
     };
