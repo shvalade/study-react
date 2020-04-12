@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.scss"],"names":[],"mappings":"AAAA,KACE,kBAAmB,CACpB,UAGC,cAAe,CADjB,gBAII,aAAc","file":"main.c2cf1217.chunk.css","sourcesContent":["body {\n  background: #f9f9f9;\n}\n\n.nav-link {\n  cursor: pointer;\n\n  &:hover {\n    color: #007bff;\n  }\n}\n\nul.list-group {\n  // list-style-type: none;\n\n}\n\n.list-item {\n\n}\n"]}
