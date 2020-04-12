@@ -1,12 +1,8 @@
 import React from "react"
 
 class MovieWillWatchItem extends React.Component {
-  constructor () {
-    super();
-  }
 
   render() {
-
     const {movieTitle, movieRating} = this.props;
 
     return(

@@ -1,31 +1,36 @@
 import React from "react"
 
 class MoviePages extends React.Component{
-  constructor() {
-    super();
 
-  }
+
 
   render() {
-    const { currentPage, updateCurrPage } = this.props
+    const {
+      currentPage,
+      updateCurrPage
+    } = this.props
+
     const getClass = value => {
       return `nav-link ${ value > 1 ? "active" : "disabled"}`
     }
-    // let testi = "qweqwe";
+
+    const clickHandPrev = value => () => {
+      if(currentPage > 1){
+        updateCurrPage(currentPage - 1);
+      }
+    }
+
+    const clickHandNext = value => () => {
+      updateCurrPage(currentPage + 1);
+    }
+
     return (
       <ul className="tabs nav nav-pills">
         <li>
           <div className="nav-item">
             <div
               className = {getClass(currentPage)}
-
-              onClick = {() => {
-                if(currentPage > 1){
-                  updateCurrPage(currentPage - 1);
-                } else {
-                  console.log("First page!");
-                }
-              }}
+              onClick = {clickHandPrev()}
             >
               Prev
             </div>
@@ -42,9 +47,7 @@ class MoviePages extends React.Component{
           <div className="nav-item">
             <div
               className="nav-link active"
-              onClick={() => {
-                updateCurrPage(currentPage + 1)
-              }}
+              onClick={clickHandNext()}
             >
               Next
             </div>

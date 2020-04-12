@@ -9,7 +9,6 @@ import MovieWillWatchItem from "./MovieWillWatchItem"
 
 //UI = f(state, props)
 
-
 class App extends React.Component {
   constructor() {
     super()
@@ -19,39 +18,31 @@ class App extends React.Component {
       moviesWillWatch: [],
       sort_by: "popularity.desc",
       page: 1
-      // titles: moviesData.map(a => a.title)
-
     };
     console.log("APP constuctor");
   }
 
   componentDidMount() {
     console.log("App didMount");
-
     this.getMovies();
   }
 
   componentDidUpdate (prevProps, prevState) {
     console.log("App didUpdate")
-    // console.log("prev: ", prevProps, prevState);
-    // console.log("this: ", this.props, this.state);
 
     if (
       prevState.sort_by !== this.state.sort_by ||
       prevState.page !== this.state.page
     ) {
       console.log("Call API");
-
       this.getMovies();
     }
   }
 
   getMovies() {
     fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}&page=${this.state.page}`).then((response) => {
-    //  console.log("response: ");
       return response.json()
     }).then((data) => {
-    //  console.log("data: ", data);
       this.setState({
         movies: data.results
       })
@@ -60,48 +51,33 @@ class App extends React.Component {
 
   removeMovie = movie => {
     const updateMovies = this.state.movies.filter(item => item.id !== movie.id);
-    console.log(updateMovies);
-    // this.state.movies = updateMovies
-
+    //console.log(updateMovies);
     this.setState({
       movies: updateMovies
     })
   }
 
   addMovieToWillWatch = movie => {
-    // console.log(movie)
-
-    // const updateMoviesToWillWatch = [...this.state.moviesWillWatch];
-    // updateMoviesToWillWatch.push(movie);
-
     const updateMoviesToWillWatch = [...this.state.moviesWillWatch, movie];
-    // updateMoviesToWillWatch.push(movie);
-
     this.setState({
       moviesWillWatch: updateMoviesToWillWatch
     });
-
   };
 
-
-
   removeMovieFromWillWatch = movie => {
-    const updatemoviesWillWatch = this.state.moviesWillWatch.filter(function(item) {
+    const updatemoviesWillWatch = this.state.moviesWillWatch.filter((item) => {
       return item.id !== movie.id;
     })
-    // console.log(updateMovies);
-    // this.state.movies = updateMovies
     this.setState({
       moviesWillWatch: updatemoviesWillWatch
     })
   }
 
-  updateSortBy = value => {
-
+  updateSortBy = (value1, value2 = 1) => {
     this.setState({
-      sort_by: value
+      sort_by: value1,
+      page: value2
     })
-    // this.componentDidMount();
   }
 
   updateCurrPage = value => {
@@ -111,12 +87,7 @@ class App extends React.Component {
   }
 
 
-
   render() {
-  //console.log("App render", this.state.sort_by);
-  // console.log(this.state.moviesWillWatch.map(value => {
-  //   return value.id;
-  // }));
     return (
       <div className="container">
         <div className="row mt-4">
@@ -139,7 +110,6 @@ class App extends React.Component {
               </div>
             </div>
             <div className="row">
-
             { this.state.movies.map(movie => {
               return (
                 <div className="col-6 mb-4" key={movie.id}>
@@ -157,7 +127,6 @@ class App extends React.Component {
               );
             })}
             </div>
-
           </div>
           <div className="col-3">
             <p>Will watch: {this.state.moviesWillWatch.length}</p>
@@ -165,14 +134,13 @@ class App extends React.Component {
             {
               this.state.moviesWillWatch.map(movie => {
                 return (
-                  <li className="list-group-item">
+                  <li className="list-group-item" key={movie.id}>
                     <MovieWillWatchItem
-                      key= {movie.id}
-                      movieTitle= {movie.title}
-                      movieRating= {movie.vote_average}
+                      key={movie.id}
+                      movieTitle={movie.title}
+                      movieRating={movie.vote_average}
                     />
                   </li>
-
                 );
               })
             }
@@ -181,15 +149,6 @@ class App extends React.Component {
         </div>
       </div>
     )
-     // return <div>{[<p>1</p>,<p>2</p>,<p>3</p>]}</div>
   }
 }
-
-//moviesWillWatchIDs={this.state.moviesWillWatch.map(value => {
-//  return value.id;
-//})}
-// function App() {
-//   return <div className="title" id="323" >{moviesData[0].title}</div>
-// }
-
 export default App;

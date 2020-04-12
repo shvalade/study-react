@@ -1,28 +1,9 @@
 import React from "react"
-// import ReactDOM from "react-dom"
 
 class MovieTabs extends React.Component{
-  constructor() {
-    super();
-  }
-
-  // componentWillReceiveProps(nextProps, nextState) {
-  //   console.log("WillReceiveProps");
-  //   console.log("nextProps sort_by: ", nextProps.sort_by);
-  //   console.log("nextState sort_by: ", this.props.sort_by);
-  //
-  // }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if(nextProps.sort_by !== this.props.sort_by){
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   render() {
-    const { sort_by, updateSortBy, updateCurrPage } = this.props
+    const { sort_by, updateSortBy } = this.props
 
     const handleClick = value => () => value !== sort_by ? updateSortBy(value) : () => {return};
 
@@ -30,7 +11,6 @@ class MovieTabs extends React.Component{
       console.log("change!");
       return `nav-link ${ sort_by === value ? "active" : "" }`
     };
-
 
     console.log("MovieTabs render!");
 

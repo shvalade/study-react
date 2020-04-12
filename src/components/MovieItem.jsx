@@ -3,14 +3,35 @@ import React from "react"
 class MovieItem extends React.Component {
   constructor(props) {
     super();
-    //const { id, moviesWillWatchIDs } = this.props;
+
     this.state = {
-      willWatch: props.willWatch //moviesWillWatchIDs.includes(id) ? true : false
+      willWatch: props.willWatch
     };
   }
 
   render(){
-    const { movie, removeMovie, addMovieToWillWatch, removeMovieFromWillWatch } = this.props;
+    const {
+      movie,
+      removeMovie,
+      addMovieToWillWatch,
+      removeMovieFromWillWatch
+    } = this.props;
+
+    const clickHandRemMovie = value => () => {
+      this.setState({ willWatch: false });
+      removeMovieFromWillWatch(movie);
+    }
+
+    const clickHandAddMovie = value => () => {
+      this.setState({ willWatch: true });
+      addMovieToWillWatch(movie);
+    }
+
+    const clickHandDelMovie = value => () => {
+      removeMovieFromWillWatch(movie);
+      removeMovie(movie);
+    }
+
     return (
      <div className="card">
       <img
@@ -27,12 +48,7 @@ class MovieItem extends React.Component {
              <button
                 type="button"
                 className="btn btn-success"
-                onClick={() => {
-                  this.setState({
-                    willWatch: false
-                  })
-                  removeMovieFromWillWatch(movie);
-                }}
+                onClick={clickHandRemMovie()}
              >
               Remove Will Watch
              </button>
@@ -40,23 +56,16 @@ class MovieItem extends React.Component {
              <button
                type="button"
                className="btn btn-secondary"
-               onClick={() => {
-                this.setState({
-                  willWatch: true
-                })
-                addMovieToWillWatch(movie);
-               }}
+               onClick={clickHandAddMovie()}
              >
                Add Will Watch
              </button>
            )}
         </div>
-          <button type="button"
-            onClick = { () => {
-              removeMovieFromWillWatch(movie);
-              removeMovie(movie);
-
-            }}
+          <button
+            type="button"
+            className="btn btn-outline-danger btn-sm"
+            onClick = {clickHandDelMovie()}
           >
             Delete movie
           </button>
@@ -65,7 +74,5 @@ class MovieItem extends React.Component {
    )
   }
 }
-
-
 
 export default MovieItem;
