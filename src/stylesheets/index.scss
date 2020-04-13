@@ -4,7 +4,8 @@ body {
 
 .nav-link {
   cursor: pointer;
-
+  margin-left: 3px;
+  margin-right: 3px;
   &:hover {
     color: #007bff;
   }

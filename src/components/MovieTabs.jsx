@@ -15,7 +15,7 @@ class MovieTabs extends React.Component{
     console.log("MovieTabs render!");
 
     return (
-      <ul className="tabs nav nav-pills">
+      <ul className="tabs nav nav-tabs">
         <li>
           <div className="nav-item">
             <div

@@ -17,7 +17,8 @@ class App extends React.Component {
       movies: [],
       moviesWillWatch: [],
       sort_by: "popularity.desc",
-      page: 1
+      page: 1,
+      totalPages: 500
     };
     console.log("APP constuctor");
   }
@@ -106,6 +107,7 @@ class App extends React.Component {
                 <MoviePages
                   currentPage={this.state.page}
                   updateCurrPage={this.updateCurrPage}
+                  totalPages={this.state.totalPages}
                 />
               </div>
             </div>
